@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.app.ToolbarActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,12 +14,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
+import static android.widget.Toast.makeText;
+
 
 public class MainActivity extends ActionBarActivity {
-    int quantity = 0;
+    int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,11 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when + button is clicked.
      */
     public void increment(View view) {
+        if(quantity == 100) {
+           Toast toast = new Toast(this);
+            toast.makeText(this, "Cannot more than 100 cups of coffee",Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity + 1;
         display(quantity);
     }
@@ -60,6 +69,10 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when - button is clicked.
      */
     public void decrement(View view) {
+        if(quantity == 1) {
+            Toast.makeText(this, "Cannot less than 1 cup of coffee", Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity - 1;
         display(quantity);
     }
