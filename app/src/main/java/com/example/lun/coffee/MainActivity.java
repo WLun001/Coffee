@@ -1,8 +1,10 @@
 package com.example.lun.coffee;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.internal.app.ToolbarActionBar;
@@ -111,6 +113,7 @@ public class MainActivity extends ActionBarActivity {
         String baseMessage = orderMessage(withCream,withChocolate,withVanilla,espressoCup,greenTeaCup,mochaCup);
         double price = calculatePrice(withCream, withChocolate, withVanilla, espressoCup, greenTeaCup, mochaCup);
         displayMessage(createOrderSummary(price,userName,baseMessage));
+        composeEmail(createOrderSummary(price,userName,baseMessage));
     }
 
     /* Create order summary
@@ -223,4 +226,16 @@ public class MainActivity extends ActionBarActivity {
         orderSummaryTextView.setText(message);
     }
 
+    /**
+     * This method intents order summary to email
+     */
+    private void composeEmail(String message){
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
 }
